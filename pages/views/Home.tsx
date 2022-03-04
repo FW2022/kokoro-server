@@ -55,8 +55,10 @@ export default function Home(props: HomeProps) {
                                             {data.image &&
                                                 data.image.map((v, idx) => {
                                                     return (
-                                                        <div key={`${data.id}_${idx}`}>
-                                                            <p>{data["emotion"][idx]}</p>
+                                                        <div
+                                                            key={`${data.id}_${idx}`}
+                                                        >
+                                                            {/* <p>{data["emotion"][idx]}</p> */}
                                                             <img
                                                                 key={`${data.id}_${idx}`}
                                                                 src={`/${v}`}
@@ -162,7 +164,7 @@ Home.getInitialProps = async function (context: NextPageContext) {
         board.map((v: Board) => {
             imagePage[v.id] = 1;
             if (v.hashtag && v.hashtag.length > 0) {
-                let hashtags = v.hashtag.join("|");
+                const hashtags = v.hashtag.join("|");
 
                 const hashtagRegex = RegExp(`#(${hashtags}*)`, "g");
                 v.content = v.content.replace(hashtagRegex, (tag) => {
