@@ -35,7 +35,7 @@
         "@nestjs/passport": "^8.0.1",
         "@nestjs/platform-express": "^7.6.15",
         "@nestjs/serve-static": "^2.2.2",
-        "@nestjs/typeorm": "^8.0.2",
+        "@nestjs/typeorm": "^8.0.3",
         "@types/react": "^17.0.35",
         "@types/react-dom": "^17.0.11",
         "axios": "^0.24.0",
