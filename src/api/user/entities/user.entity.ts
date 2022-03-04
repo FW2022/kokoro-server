@@ -35,7 +35,7 @@ export class User {
     name: string;
 
     @Column("simple-array")
-    roles: Role[] = [];
+    roles: Role[] = ["EmailVerified"];
 
     @ManyToMany((type) => User, (user) => user.following)
     follower: User[];
