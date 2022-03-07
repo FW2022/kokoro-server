@@ -6,8 +6,8 @@ import { join } from "path";
 
 @Processor("meeting")
 export class BoardProcessor {
-    @Process("emotion")
-    async emotion(job: Job) {
+    @Process("color")
+    async color(job: Job) {
         try {
             const { filename } = job.data;
 
@@ -30,7 +30,7 @@ export class BoardProcessor {
                 console.log(`Processing... ${filename}`);
                 console.log(`${join(__dirname, "..", "..", "..", "..", "..")}`);
                 const spawnPromise = spawnAsync(`bash`, [
-                    "/home/jeonghun/SSUstagram/getEmotion.sh",
+                    "~/Projects/kokoro-server/getColor.sh",
                     filename,
                 ]);
 

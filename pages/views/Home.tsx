@@ -58,7 +58,7 @@ export default function Home(props: HomeProps) {
                                                         <div
                                                             key={`${data.id}_${idx}`}
                                                         >
-                                                            {/* <p>{data["emotion"][idx]}</p> */}
+                                                            {/* <p>{data["color"][idx]}</p> */}
                                                             <img
                                                                 key={`${data.id}_${idx}`}
                                                                 src={`/${v}`}
