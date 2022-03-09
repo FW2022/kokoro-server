@@ -49,13 +49,13 @@ export class BoardService {
                 hashtag,
             };
 
-            // if (process.env.USE_COLOR) {
-            //     for (const filenameIdx in createBoardDto.image) {
-            //         await this.queue.add("color", {
-            //             filename: createBoardDto.image[filenameIdx],
-            //         });
-            //     }
-            // }
+            if (process.env.USE_COLOR) {
+                for (const filenameIdx in createBoardDto.image) {
+                    await this.queue.add("color", {
+                        filename: createBoardDto.image[filenameIdx],
+                    });
+                }
+            }
 
             await this.boardRepository.save(board);
 
@@ -122,7 +122,9 @@ export class BoardService {
 
             if (process.env.USE_COLOR) {
                 result[0] = result[0].map((v) => {
-                    v["color"] = [];
+                    v["primary_color"] = [];
+                    v["secondary_color"] = [];
+                    v["therapeutic_color"] = [];
                     for (const img in v.image) {
                         const filename = v.image[img];
                         const filenameCSV = `${filename.split(".")[0]}.csv`;
@@ -154,9 +156,13 @@ export class BoardService {
                             );
                             const data = parse(csv.toString("utf-8"));
                             // console.log(data)
-                            v["color"].push(data[1][1]);
+                            v["primary_color"].push(data[1][0]);
+                            v["secondary_color"].push(data[1][2]);
+                            v["therapeutic_color"].push(data[1][3]);
                         } else {
-                            v["color"].push("LOADING...");
+                            v["primary_color"].push("LOADING...");
+                            v["secondary_color"].push("LOADING...");
+                            v["therapeutic_color"].push("LOADING...");
                         }
                     }
                     return v;
@@ -182,13 +188,13 @@ export class BoardService {
             board.image = image;
             board.hashtag = this.contentToHashtag(content);
 
-            // if (process.env.USE_EMOTION) {
-            //     for (const filenameIdx in board.image) {
-            //         await this.queue.add("color", {
-            //             filename: board.image[filenameIdx],
-            //         });
-            //     }
-            // }
+            if (process.env.USE_EMOTION) {
+                for (const filenameIdx in board.image) {
+                    await this.queue.add("color", {
+                        filename: board.image[filenameIdx],
+                    });
+                }
+            }
 
             return this.boardRepository.save(board);
         } catch (err) {

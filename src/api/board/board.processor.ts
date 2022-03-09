@@ -31,7 +31,10 @@ export class BoardProcessor {
                 console.log(`${join(__dirname, "..", "..", "..", "..", "..")}`);
                 const spawnPromise = spawnAsync(`bash`, [
                     "~/Projects/kokoro-server/getColor.sh",
-                    filename,
+                    `~/Projects/kokoro-server/public/${filename}`,
+                    `~/Projects/kokoro-server/public/${`${
+                        filename.split(".")[0]
+                    }.csv`}`,
                 ]);
 
                 const child = spawnPromise.child;
