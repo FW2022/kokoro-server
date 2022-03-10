@@ -29,12 +29,11 @@ export class BoardProcessor {
             ) {
                 console.log(`Processing... ${filename}`);
                 console.log(`${join(__dirname, "..", "..", "..", "..", "..")}`);
+                const root = `${join(__dirname, "..", "..", "..", "..", "..")}`;
                 const spawnPromise = spawnAsync(`bash`, [
-                    "~/Projects/kokoro-server/getColor.sh",
-                    `~/Projects/kokoro-server/public/${filename}`,
-                    `~/Projects/kokoro-server/public/${`${
-                        filename.split(".")[0]
-                    }.csv`}`,
+                    `${root}/getColor.sh`,
+                    `${root}/public/${filename}`,
+                    `${root}/public/${`${filename.split(".")[0]}.csv`}`,
                 ]);
 
                 const child = spawnPromise.child;

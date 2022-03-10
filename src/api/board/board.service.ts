@@ -157,8 +157,8 @@ export class BoardService {
                             const data = parse(csv.toString("utf-8"));
                             // console.log(data)
                             v["primary_color"].push(data[1][0]);
-                            v["secondary_color"].push(data[1][2]);
-                            v["therapeutic_color"].push(data[1][3]);
+                            v["secondary_color"].push(data[1][1]);
+                            v["therapeutic_color"].push(data[1][2]);
                         } else {
                             v["primary_color"].push("LOADING...");
                             v["secondary_color"].push("LOADING...");

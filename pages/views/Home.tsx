@@ -58,7 +58,25 @@ export default function Home(props: HomeProps) {
                                                         <div
                                                             key={`${data.id}_${idx}`}
                                                         >
-                                                            {/* <p>{data["color"][idx]}</p> */}
+                                                            <p>
+                                                                {
+                                                                    data[
+                                                                        "primary_color"
+                                                                    ][idx]
+                                                                }
+                                                                ,
+                                                                {
+                                                                    data[
+                                                                        "secondary_color"
+                                                                    ][idx]
+                                                                }
+                                                                ,
+                                                                {
+                                                                    data[
+                                                                        "therapeutic_color"
+                                                                    ][idx]
+                                                                }
+                                                            </p>
                                                             <img
                                                                 key={`${data.id}_${idx}`}
                                                                 src={`/${v}`}
