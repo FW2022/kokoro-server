@@ -49,15 +49,16 @@ export class BoardService {
                 hashtag,
             };
 
+            await this.boardRepository.save(board);
+
             if (process.env.USE_COLOR) {
                 for (const filenameIdx in createBoardDto.image) {
                     await this.queue.add("color", {
                         filename: createBoardDto.image[filenameIdx],
+                        boardID: board.id,
                     });
                 }
             }
-
-            await this.boardRepository.save(board);
 
             return board;
         } catch (err) {
@@ -188,10 +189,11 @@ export class BoardService {
             board.image = image;
             board.hashtag = this.contentToHashtag(content);
 
-            if (process.env.USE_EMOTION) {
+            if (process.env.USE_COLOR) {
                 for (const filenameIdx in board.image) {
                     await this.queue.add("color", {
                         filename: board.image[filenameIdx],
+                        boardID: board.id,
                     });
                 }
             }

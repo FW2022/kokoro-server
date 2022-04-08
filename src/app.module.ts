@@ -18,6 +18,8 @@ import { MessengerUser } from "./api/messenger/entities/messengerUser.entity";
 import { MessengerText } from "./api/messenger/entities/messengerText.entity";
 import { MessengerModule } from "./api/messenger/messenger.module";
 import { BullModule } from "@nestjs/bull";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 
 @Module({
     imports: [
@@ -59,6 +61,23 @@ import { BullModule } from "@nestjs/bull";
                 port: Number(process.env.REDIS_PORT),
                 password: process.env.REDIS_PASS,
             },
+        }),
+        GraphQLModule.forRootAsync<ApolloDriverConfig>({
+            driver: ApolloDriver,
+            useFactory: async () => ({
+                debug: !!process.env.GRAPHQL_DEBUG,
+                playground: true,
+                buildSchemaOptions: {
+                    dateScalarMode: "isoDate",
+                },
+                cors: !!process.env.SERVER_CORS_ENABLE,
+                introspection: !!process.env.GRAPHQL_INTROSPECTION,
+                autoSchemaFile: join(process.cwd(), "src/schema.gql"),
+                sortSchema: !!process.env.GRAPHQL_SORTSCHEMA,
+                subscriptions: {
+                    "graphql-ws": true,
+                },
+            }),
         }),
         ApiModule,
         UserModule,
