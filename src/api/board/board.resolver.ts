@@ -1,9 +1,18 @@
 import { Inject } from "@nestjs/common";
-import { Int, Query, Resolver, Subscription } from "@nestjs/graphql";
+import {
+    Args,
+    Int,
+    Mutation,
+    Query,
+    Resolver,
+    Subscription,
+} from "@nestjs/graphql";
 import { PubSubEngine } from "graphql-subscriptions";
 import { BoardService } from "./board.service";
 import { FindAllArgDto } from "./dto/board.dto";
 import { Board } from "./entities/board.entity";
+import dirTree from "directory-tree";
+import { join } from "path";
 
 @Resolver()
 export class BoardResolver {
@@ -18,8 +27,38 @@ export class BoardResolver {
         return result[0];
     }
 
+    @Query((type) => String, { description: "음악 경로 불러오기" })
+    async getMusicPath(): Promise<any> {
+        const tree = dirTree(
+            `${join(
+                __dirname,
+                "..",
+                "..",
+                "..",
+                "..",
+                "..",
+                "public",
+                "scrapes"
+            )}`
+        );
+
+        return JSON.stringify(tree);
+    }
+
+    @Mutation((type) => Boolean)
+    async sendMusic(
+        @Args("notes", { type: () => [Int] }) notes: number[]
+    ): Promise<boolean> {
+        return this.boardService.sendMusic(notes);
+    }
+
     @Subscription((type) => Board)
     subBoard() {
         return this.pubsub.asyncIterator("subBoard");
+    }
+
+    @Subscription((type) => String)
+    subMusic() {
+        return this.pubsub.asyncIterator("subMusic");
     }
 }

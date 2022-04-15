@@ -102,4 +102,35 @@ export class BoardProcessor {
             throw err;
         }
     }
+
+    @Process("music")
+    async music(job: Job) {
+        try {
+            const { notes } = job.data;
+
+            console.log(`${join(__dirname, "..", "..", "..", "..", "..")}`);
+            const root = `${join(__dirname, "..", "..", "..", "..", "..")}`;
+            const spawnPromise = spawnAsync(`bash`, [
+                `${root}/getMusic.sh`,
+                notes.join(","),
+            ]);
+
+            const [spawnResult] = await Promise.all([spawnPromise]);
+
+            console.log(spawnResult);
+
+            let result: string = spawnResult.stdout;
+            result = result.split("Result : ")[1];
+            result = result.split("\n")[0];
+
+            console.log(result);
+
+            this.pubsub.publish("subMusic", { subMusic: result });
+
+            return;
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
+    }
 }

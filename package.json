@@ -49,6 +49,7 @@
         "cookie-parser": "^1.4.6",
         "csv-parse": "^5.0.3",
         "dayjs": "^1.10.7",
+        "directory-tree": "^3.2.2",
         "express-session": "^1.17.2",
         "faker": "^5.5.3",
         "formik": "^2.2.9",

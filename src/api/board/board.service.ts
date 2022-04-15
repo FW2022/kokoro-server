@@ -213,4 +213,16 @@ export class BoardService {
             throw err;
         }
     }
+
+    async sendMusic(notes: number[]) {
+        try {
+            await this.queue.add("music", {
+                notes,
+            });
+            return true;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
 }
