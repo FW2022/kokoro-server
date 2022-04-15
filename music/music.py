@@ -4,6 +4,7 @@ import pygame
 from midi2audio import FluidSynth
 from collections.abc import Iterable
 from tensorflow.keras.models import load_model
+import sys
 
 # import IPython.display
 import os
@@ -108,8 +109,13 @@ def midi_generator(degrees):
 if __name__ == '__main__':
     pygame.midi.init()
     my_input = pygame.midi.Input(2)
-    midi_generator([60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77,
-                   79, 81, 83, 84, 84, 86, 88, 89, 91, 93, 95, 96, 98, 100])
+    print(sys.argv)
+    argv = sys.argv.copy()
+    argv.pop(0)
+    argv = argv[0].split(",")
+    argv = list(map(int, argv))
+    print(argv)
+    midi_generator(argv)
     pygame.init()
     pygame.mixer.music.load("major-scale.mid")
     pygame.mixer.music.set_volume(0.8)
