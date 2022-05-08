@@ -7,6 +7,7 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from "typeorm";
+import { string } from "yup";
 
 @Entity()
 @ObjectType()
@@ -27,9 +28,9 @@ export class Board {
     @DeleteDateColumn()
     deletedAt: Date;
 
-    @Field()
-    @Column()
-    authorID: string;
+    @Field((type) => String, { nullable: true })
+    @Column({ nullable: true })
+    authorID?: string;
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
@@ -43,13 +44,21 @@ export class Board {
     @Column({ nullable: true })
     therapeuticColor: string;
 
-    @Field()
-    @Column({ type: "text" })
+    @Field((type) => String, { nullable: true })
+    @Column({ type: "text", nullable: true })
     content: string;
 
     @Field((type) => [String])
     @Column({ type: "simple-array" })
     image: string[];
+
+    @Field((type) => String, { nullable: true })
+    @Column({ nullable: true })
+    music?: string;
+
+    @Field((type) => String, { nullable: true })
+    @Column({ nullable: true })
+    place?: string;
 
     @Field((type) => [String])
     @Column({ type: "simple-array" })

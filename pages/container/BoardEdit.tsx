@@ -10,7 +10,7 @@ import {
     ImageListItemBar,
 } from "@mui/material";
 import { Cancel } from "@mui/icons-material";
-import axiosInstance from "../lib/axiosInstance"
+import axiosInstance from "../lib/axiosInstance";
 
 class BoardEditProps {
     status: "EDIT" | "NEW";
@@ -37,7 +37,7 @@ const BoardEdit = (props: BoardEditProps) => {
             };
 
             axiosInstance()
-                .post<any>("/api/board/upload-image", formData, config)
+                .post<any>("/api/board/upload-images", formData, config)
                 .then((res) => {
                     const tmpThumb = [
                         ...thumb,

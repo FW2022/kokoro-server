@@ -24,15 +24,25 @@ import { FindAllArgDto } from "./dto/board.dto";
 import { Board } from "./entities/board.entity";
 
 @Controller("api/board")
-@UseGuards(JwtAuthGuard)
 export class BoardController {
     constructor(private readonly boardService: BoardService) {}
 
     @Post()
+    @UseGuards(JwtAuthGuard)
     create(@Request() req, @Body() createBoardDto: CreateBoardDto) {
         try {
             const user: User = req.user;
-            return this.boardService.create(user.id, createBoardDto);
+            return this.boardService.create(createBoardDto, user.id);
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
+    @Post("create")
+    createByGuest(@Body() createBoardDto: CreateBoardDto) {
+        try {
+            return this.boardService.create(createBoardDto);
         } catch (err) {
             console.log(err);
             throw err;
@@ -44,7 +54,7 @@ export class BoardController {
         return this.boardService.findAll({ ...query });
     }
 
-    @Post("upload-image")
+    @Post("upload-images")
     @UseInterceptors(
         FilesInterceptor("files", 5, {
             dest: "./public/",

@@ -37,7 +37,7 @@ export class BoardService {
         return hashtag;
     }
 
-    async create(userID: string, createBoardDto: CreateBoardDto) {
+    async create(createBoardDto: CreateBoardDto, userID?: string) {
         try {
             const content = createBoardDto.content;
             const hashtag = this.contentToHashtag(content);
@@ -45,7 +45,7 @@ export class BoardService {
             const board: Board = {
                 ...new Board(),
                 ...createBoardDto,
-                authorID: userID,
+                authorID: userID || null,
                 hashtag,
             };
 
