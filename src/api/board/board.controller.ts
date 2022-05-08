@@ -22,10 +22,15 @@ import fakerStatic from "faker";
 import { User } from "../user/entities/user.entity";
 import { FindAllArgDto } from "./dto/board.dto";
 import { Board } from "./entities/board.entity";
+import { Queue } from "bull";
+import { InjectQueue } from "@nestjs/bull";
 
 @Controller("api/board")
 export class BoardController {
-    constructor(private readonly boardService: BoardService) {}
+    constructor(
+        private readonly boardService: BoardService,
+        @InjectQueue("meeting") private readonly queue: Queue
+    ) {}
 
     @Post()
     @UseGuards(JwtAuthGuard)
@@ -79,9 +84,20 @@ export class BoardController {
             }),
         })
     )
-    uploadImage(@UploadedFiles() files: Array<Express.Multer.File>) {
+    async uploadImages(@UploadedFiles() files: Array<Express.Multer.File>) {
         try {
-            console.log(files);
+            const [board] = await this.boardService.findAll({
+                skip: 0,
+                take: 1,
+            });
+
+            if (process.env.USE_COLOR) {
+                console.log(files, board);
+                await this.queue.add("color", {
+                    filename: files[0].filename,
+                    boardID: board[0].id,
+                });
+            }
 
             return {
                 result: true,
