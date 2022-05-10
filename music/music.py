@@ -108,7 +108,7 @@ def midi_generator(degrees):
 
 if __name__ == '__main__':
     pygame.midi.init()
-    my_input = pygame.midi.Input(2)
+    # my_input = pygame.midi.Input(2)
     print(sys.argv)
     argv = sys.argv.copy()
     argv.pop(0)
@@ -198,4 +198,4 @@ if __name__ == '__main__':
     # print(y_predict) #[[3.3286267e-21 9.8352991e-02 2.0311566e-15 1.0989858e-11 9.0164697e-01]]
     # print(y_predict.argmax(axis=1)) # [4]
     # print(y_predict.argmax(axis=1)[0]) # 4
-    print(labels[y_predict.argmax(axis=1)[0]])  # Sad
+    print("Result : " + labels[y_predict.argmax(axis=1)[0]])  # Sad
