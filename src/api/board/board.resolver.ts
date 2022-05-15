@@ -52,6 +52,22 @@ export class BoardResolver {
         return this.boardService.sendMusic(notes);
     }
 
+    @Mutation((type) => String)
+    async setPlace(
+        @Args("place", { type: () => String }) place: string
+    ): Promise<string> {
+        this.pubsub.publish("subPlace", { subPlace: place });
+        return place;
+    }
+
+    @Mutation((type) => [String])
+    async setShape(
+        @Args("shape", { type: () => [String] }) shape: string[]
+    ): Promise<string[]> {
+        this.pubsub.publish("subShpae", { subShape: shape });
+        return shape;
+    }
+
     @Subscription((type) => Board)
     subBoard() {
         return this.pubsub.asyncIterator("subBoard");
@@ -60,5 +76,15 @@ export class BoardResolver {
     @Subscription((type) => String)
     subMusic() {
         return this.pubsub.asyncIterator("subMusic");
+    }
+
+    @Subscription((type) => String)
+    subPlace() {
+        return this.pubsub.asyncIterator("subPlace");
+    }
+
+    @Subscription((type) => [String])
+    subShape() {
+        return this.pubsub.asyncIterator("subShape");
     }
 }
