@@ -64,7 +64,7 @@ export class BoardResolver {
     async setShape(
         @Args("shape", { type: () => [String] }) shape: string[]
     ): Promise<string[]> {
-        this.pubsub.publish("subShpae", { subShape: shape });
+        this.pubsub.publish("subShape", { subShape: shape });
         return shape;
     }
 
