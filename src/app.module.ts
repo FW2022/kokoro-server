@@ -27,13 +27,13 @@ import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
             envFilePath: `.env`,
             isGlobal: true,
         }),
-        RenderModule.forRootAsync(
-            Next({
-                dev:
-                    // process.env.NODE_ENV !== "production"
-                    true,
-            })
-        ),
+        // RenderModule.forRootAsync(
+        //     Next({
+        //         dev:
+        //             // process.env.NODE_ENV !== "production"
+        //             true,
+        //     })
+        // ),
         TypeOrmModule.forRoot({
             type: "mysql",
             host: process.env.MYSQL_HOST,
