@@ -32,18 +32,6 @@ export class BoardController {
         @InjectQueue("meeting") private readonly queue: Queue
     ) {}
 
-    @Post()
-    @UseGuards(JwtAuthGuard)
-    create(@Request() req, @Body() createBoardDto: CreateBoardDto) {
-        try {
-            const user: User = req.user;
-            return this.boardService.create(createBoardDto, user.id);
-        } catch (err) {
-            console.log(err);
-            throw err;
-        }
-    }
-
     @Post("create")
     createByGuest(@Body() createBoardDto: CreateBoardDto) {
         try {
@@ -111,11 +99,6 @@ export class BoardController {
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.boardService.findOne(id);
-    }
-
-    @Patch(":id")
-    update(@Param("id") id: string, @Body() updateBoardDto: UpdateBoardDto) {
-        return this.boardService.update(id, updateBoardDto);
     }
 
     @Delete(":id")

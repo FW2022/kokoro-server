@@ -37,28 +37,14 @@ export class BoardService {
         return hashtag;
     }
 
-    async create(createBoardDto: CreateBoardDto, userID?: string) {
+    async create(createBoardDto: CreateBoardDto) {
         try {
-            const content = createBoardDto.content;
-            const hashtag = this.contentToHashtag(content);
-
             const board: Board = {
                 ...new Board(),
                 ...createBoardDto,
-                authorID: userID || null,
-                hashtag,
             };
 
             await this.boardRepository.save(board);
-
-            if (process.env.USE_COLOR) {
-                for (const filenameIdx in createBoardDto.image) {
-                    await this.queue.add("color", {
-                        filename: createBoardDto.image[filenameIdx],
-                        boardID: board.id,
-                    });
-                }
-            }
 
             return board;
         } catch (err) {
@@ -114,12 +100,6 @@ export class BoardService {
             }
 
             const result = await this.boardRepository.findAndCount(findOptions);
-
-            if (hashtagEqual) {
-                result[0] = result[0].filter((v) =>
-                    v.hashtag.some((k) => k === hashtagEqual)
-                );
-            }
 
             if (process.env.USE_COLOR) {
                 result[0] = result[0].map((v) => {
@@ -179,30 +159,6 @@ export class BoardService {
 
     findOne(id: string) {
         return this.boardRepository.findOne(id);
-    }
-
-    async update(id: string, updateBoardDto: UpdateBoardDto) {
-        try {
-            const { content, image } = updateBoardDto;
-            const board = await this.boardRepository.findOne(id);
-            board.content = content;
-            board.image = image;
-            board.hashtag = this.contentToHashtag(content);
-
-            if (process.env.USE_COLOR) {
-                for (const filenameIdx in board.image) {
-                    await this.queue.add("color", {
-                        filename: board.image[filenameIdx],
-                        boardID: board.id,
-                    });
-                }
-            }
-
-            return this.boardRepository.save(board);
-        } catch (err) {
-            console.log(err);
-            throw err;
-        }
     }
 
     remove(id: string) {

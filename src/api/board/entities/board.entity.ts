@@ -30,27 +30,19 @@ export class Board {
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
-    authorID?: string;
+    author?: string;
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
-    primaryColor: string;
+    primaryColor?: string;
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
-    secondaryColor: string;
+    secondaryColor?: string;
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
-    therapeuticColor: string;
-
-    @Field((type) => String, { nullable: true })
-    @Column({ type: "text", nullable: true })
-    content: string;
-
-    @Field((type) => [String])
-    @Column({ type: "simple-array" })
-    image: string[];
+    therapeuticColor?: string;
 
     @Field((type) => String, { nullable: true })
     @Column({ nullable: true })
@@ -60,7 +52,15 @@ export class Board {
     @Column({ nullable: true })
     place?: string;
 
+    @Field((type) => String, { nullable: true })
+    @Column({ nullable: true })
+    emote?: string;
+
+    @Field((type) => [String], { nullable: true })
+    @Column({ type: "simple-array", nullable: true })
+    shape?: string[];
+
     @Field((type) => [String])
     @Column({ type: "simple-array" })
-    hashtag: string[];
+    image?: string[];
 }

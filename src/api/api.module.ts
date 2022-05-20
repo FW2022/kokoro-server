@@ -3,8 +3,9 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 import { BoardModule } from "./board/board.module";
 import { MessengerModule } from "./messenger/messenger.module";
-
+import { BoardGateway } from './board.gateway';
 @Module({
     imports: [AuthModule, UserModule, BoardModule, MessengerModule],
+    providers: [BoardGateway],
 })
 export class ApiModule {}

@@ -9,13 +9,15 @@ import { Process, Processor } from "@nestjs/bull";
 import spawnAsync from "@expo/spawn-async";
 import { Board } from "./entities/board.entity";
 import { parse } from "csv-parse/sync";
+import { BoardService } from "./board.service";
 
 @Processor("meeting")
 export class BoardProcessor {
     constructor(
         @InjectRepository(Board)
         private readonly boardRepository: Repository<Board>,
-        @Inject("PUB_SUB") private pubsub: PubSubEngine
+        @Inject("PUB_SUB") private pubsub: PubSubEngine,
+        private readonly boardService: BoardService
     ) {}
 
     @Process("color")
@@ -126,6 +128,15 @@ export class BoardProcessor {
             console.log(result);
 
             this.pubsub.publish("subMusic", { subMusic: result });
+
+            const boards = await this.boardService.findAll({
+                skip: 0,
+                take: 1,
+            });
+            const board = boards[0][0];
+
+            board.music = result;
+            this.boardRepository.save(board);
 
             return;
         } catch (err) {
